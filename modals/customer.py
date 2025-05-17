@@ -31,5 +31,26 @@ class Customer:  # Customer class to represent a customer
         return list({order.coffee for order in self.orders()})
     # {order.coffee for ...} builds a set (to ensure uniqueness) & list(...) converts it to a list
 
+    @classmethod
+    def most_aficionado(cls, coffee): # returns the customer who ordered the most of this coffee
+        from .order import Order # import locally to avoid circular import
+
+        customer_spending = {} # dictionary to store customer spending
+
+        for order in Order.all_orders: # iterating through all orders
+            if order.coffee == coffee: # checks if the coffee is the same
+                customer = order.customer # gets the customer of the order
+                customer.spending = customer_spending.get(customer, 0) + order.price 
+                # adds the price of the order to the customer's spending
+
+        if not customer_spending: # checks if there are no orders
+            return None # returns None if there are no orders
+
+        return max(customer_spending, key=customer_spending.get)
+    # key is the function to be called on each element of the iterable
+    # max() returns the maximum value of the iterable, which is the customer with the highest spending
+
+
+
     def __str__(self): # string representation of the customer
         return f"\nThe next Customer is: {self.name}" # returns the name of the customer
