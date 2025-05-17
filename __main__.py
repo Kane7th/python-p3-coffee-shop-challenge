@@ -23,7 +23,7 @@ def main():
     order4 = kane.create_order(latte, 4.00) # this will create Kane's order object including the coffee and price
     order5 = john.create_order(latte, 5.50) # this will create John's order object including the coffee and price
 
-
+ # Prints the details of customers and their orders
     print(john)
     for order in john.orders():
         print(order)
@@ -44,44 +44,54 @@ def main():
     for order in john.orders():  
         print(order)
     
+# Prints the details of coffees and number of times it has been ordered and the average price
     print(f"\nLatte has been ordered {latte.num_orders()} times.")
     print(f"Average price for Latte: £{latte.average_price():.2f}")
 
-    aficionado = Customer.most_aficionado(latte)
-    if aficionado:
-        print(f"\nThe most aficionado for Latte is {aficionado.name}")
-    else:
-        print("\nNo aficionado found for Latte.")
+    aficionados = Customer.most_aficionado(latte) # this will return the customer who ordered the most of this coffee
+
+    if aficionados is None: # checks if there are no orders
+        print("\nNo aficionado found for Latte.") # returns None if there are no orders
+    elif len(aficionados) == 1: # checks if there is only one aficionado
+        print(f"\nThe most aficionado for Latte is {aficionados[0].name}") # returns the name of the aficionado
+    else: # checks if there is a tie
+        names = ', '.join(customer.name for customer in aficionados) # creates a list of names who spent the most
+        print(f"\nThere is a tie for the most aficionado for Latte among: {names}") # returns the names of the aficionados
+
 
 
  # Edge case 1: Coffee with no orders
 
     mocha = Coffee("Mocha")  # No orders created for mocha
     
-    print(f"\nMocha has been ordered {mocha.num_orders()} times.")
-    print(f"Average price for Mocha: £{mocha.average_price():.2f}")
-    aficionado_mocha = Customer.most_aficionado(mocha)
-    if aficionado_mocha:
-        print(f"The most aficionado for Mocha is {aficionado_mocha.name}")
-    else:
-        print("No aficionado found for Mocha.")
+    print(f"\nMocha has been ordered {mocha.num_orders()} times.") # returns the number of orders for mocha
+    print(f"Average price for Mocha: £{mocha.average_price():.2f}") # returns the average price for mocha
+ 
+    aficionado_mocha = Customer.most_aficionado(mocha) # this will return the customer who ordered the most of this coffee
+    if aficionado_mocha: # checks if there is an aficionado
+        print(f"The most aficionado for Mocha is {aficionado_mocha.name}") # returns the name of the aficionado
+    else: # checks if there is no aficionado
+        print("No aficionado found for Mocha.") # returns None if there are no orders
+
+
+
 
  # Edge case 2: Tie in spending
 
-    # Add orders to create a tie for cappuccino between brad and chris
     order6 = chris.create_order(cappuccino, 5.00)  # same price as brad's order
     # Now brad and chris each spent 5.00 on cappuccino
     
-    aficionados_cappuccino = Customer.most_aficionado(cappuccino)
-    if aficionados_cappuccino:
-        if len(aficionados_cappuccino) == 1:
-           print(f"\nThe most aficionado for Cappuccino is {aficionados_cappuccino[0].name}")
-        else:
-            names = ', '.join(cust.name for cust in aficionados_cappuccino)
-            print(f"\nThere is a tie for the most aficionado for Cappuccino among: {names}")
-    else:
-        print("No aficionado found for Cappuccino.")
+
+    aficionados_cappuccino = Customer.most_aficionado(cappuccino) # this will return the customer who ordered the most of this coffee
+    if aficionados_cappuccino: # checks if there is an aficionado
+        if len(aficionados_cappuccino) == 1: # checks if there is only one aficionado
+           print(f"\nThe most aficionado for Cappuccino is {aficionados_cappuccino[0].name}") # returns the name of the aficionado
+        else: # checks if there is a tie
+            names = ', '.join(cust.name for cust in aficionados_cappuccino) # creates a list of names who spent the most
+            print(f"\nThere is a tie for the most aficionado for Cappuccino among: {names}") # returns the names of the aficionados
+    else: # checks if there is no aficionado
+        print("No aficionado found for Cappuccino.") # returns None if there are no orders
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": # checks if the script is being run directly
+    main() # calls the main function to run the script
