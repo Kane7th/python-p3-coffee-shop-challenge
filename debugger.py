@@ -1,3 +1,3 @@
 from modals.Coffee import Coffee
-from modals.Customer import Customer
-from modals.Order import Order
+from modals.customer import Customer
+from modals.order import Order
