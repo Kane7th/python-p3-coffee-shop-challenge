@@ -1,3 +1,5 @@
+from .exceptions import CoffeeValidationError # Importing the custom exception class for validation errors
+
 class Coffee:
     def __init__(self, name): # constructor to initialize the coffee
         self.name = name # calls the setter to set the name
@@ -7,13 +9,15 @@ class Coffee:
         return self._name # returns the stored name in private variable
     
 
-    @name.setter  # checks type and length, raising errors if invalid
-    def name(self, value): 
+    @name.setter
+    def name(self, value): # sets the name of the coffee
         if not isinstance(value, str): # checks if value is a string
-            raise TypeError("Coffee name must be a string value")
-        if len(value) < 3: # checks if length is at least 3
-            raise TypeError("Coffee name must be at least 3 characters long")
-        self._name = value  # actual value is stored in self._name
+            raise CoffeeValidationError("Coffee name must be a string") # imports CoffeeValidationError as a custom exception
+        if not value.strip(): # checks if name is empty or whitespace
+            raise CoffeeValidationError("Coffee name cannot be empty or whitespace") # imports CoffeeValidationError as a custom exception
+        if len(value.strip()) < 3: # checks if length is at least 3
+            raise CoffeeValidationError("Coffee name must be at least 3 characters") # imports CoffeeValidationError as a custom exception
+        self._name = value.strip() # sets the name using the setter
 
     def orders(self): # returns all orders for this coffee
         from .order import Order # import locally to avoid circular import
@@ -34,6 +38,6 @@ class Coffee:
         total_price = sum(order.price for order in orders) # calculates the total price of all orders
         return total_price / len(orders) # returns the average price of this coffee
     
-    
+
 
 

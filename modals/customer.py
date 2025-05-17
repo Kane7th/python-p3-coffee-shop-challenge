@@ -1,4 +1,5 @@
 from .order import Order # Importing the Order class from order module
+from .exceptions import CustomerValidationError # Importing the custom exception class for validation errors
 
 class Customer:  # Customer class to represent a customer
     def __init__(self, name): # constructor to initialize the customer
@@ -9,13 +10,15 @@ class Customer:  # Customer class to represent a customer
         return self._name # returns the stored name in private variable
     
 
-    @name.setter  # checks type and length, raising errors if invalid
-    def name(self, value):
+    @name.setter
+    def name(self, value): # sets the name of the customer
         if not isinstance(value, str): # checks if value is a string
-            raise TypeError("Name must be a string value")
+            raise CustomerValidationError("Name must be a string") # imports CustomerValidationError as a custom exception
+        if not value.strip(): # checks if name is empty or whitespace
+            raise CustomerValidationError("Name cannot be empty or whitespace") # imports CustomerValidationError from exceptions
         if not (1 <= len(value) <= 15): # checks if length is between 1 and 15
-            raise TypeError("Name must be between 1 and 15 characters long")
-        self._name = value  # actual value is stored in self._name
+            raise CustomerValidationError("Name must be between 1 and 15 characters") # imports CustomerValidationError from exceptions
+        self._name = value.strip() # sets the name using the setter
 
     def create_order(self, coffee, price):  # 
         from .order import Order  # import locally to avoid circular import

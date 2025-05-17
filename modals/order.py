@@ -1,3 +1,5 @@
+from .exceptions import OrderValidationError # Importing the custom exception class for validation errors
+
 class Order:
     all_orders = []  # class variable to store all orders
 
@@ -15,8 +17,8 @@ class Order:
     @customer.setter  # checks type and length, raising errors if invalid
     def customer(self, value): # sets the customer of the order
         from .customer import Customer  # import locally to avoid circular import
-        if not isinstance(value, Customer): 
-            raise TypeError("Customer must be a Customer object") # checks if value is a Customer object
+        if not isinstance(value, Customer): # checks if value is a Customer object
+            raise OrderValidationError("Customer must be a Customer object") # imports OrderValidationError as a custom exception
         self._customer = value # sets the customer using the setter
     # setter for customer, checks type and length, raising errors if invalid
 
@@ -29,7 +31,7 @@ class Order:
     def coffee(self, value): # sets the coffee of the order
         from .coffee import Coffee  # import locally to avoid circular import
         if not isinstance(value, Coffee):
-            raise TypeError("Coffee must be a Coffee object") # checks if value is a Coffee object
+            raise OrderValidationError("Coffee must be a Coffee object") # checks if value is a Coffee object
         self._coffee = value # sets the coffee using the setter
     # setter for coffee, checks type and length, raising errors if invalid
 
@@ -38,14 +40,17 @@ class Order:
     def price(self): # returns the price of the order
         return self._price # returns the stored price in private variable
     
-    @price.setter  # checks type and length, raising errors if invalid
+    @price.setter
     def price(self, value): # sets the price of the order
-        if not isinstance(value, (int, float)): # checks if value is a number
-            raise TypeError("Price must be a number")
-        if not (1.0 <= float(value) <= 10.0):
-            raise TypeError("Price must be between 1.0 and 10.0") # checks if price is between 1.0 and 10.0
-        self._price = float(value) # sets the price of the order
-    # setter for price, checks type and length, raising errors if invalid
+        try:
+            price = float(value) # converts value to float
+        except (TypeError, ValueError): # checks if value is a number
+            raise OrderValidationError("Price must be a number") # checks if value is a number
+        
+        if not (1.0 <= price <= 10.0): # checks if price is between 1.0 and 10.0
+            raise OrderValidationError("Price must be between 1.0 and 10.0") # checks if price is between 1.0 and 10.0
+        
+        self._price = round(price, 2)  # Store with 2 decimal places
 
 
     def __str__(self): # string representation of the order

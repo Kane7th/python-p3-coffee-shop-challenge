@@ -1,4 +1,8 @@
-from .modals import Customer, Coffee
+from .modals.customer import Customer
+from .modals.coffee import Coffee
+from .modals.order import Order
+from .modals.exceptions import ValidationError
+
 
 # This is a simple script to demonstrate the usage of the Customer, Coffee, and Order classes
 # The script creates a customer, adds an order for a coffee, and prints the details of the customer and their orders.
@@ -91,6 +95,29 @@ def main():
             print(f"\nThere is a tie for the most aficionado for Cappuccino among: {names}") # returns the names of the aficionados
     else: # checks if there is no aficionado
         print("No aficionado found for Cappuccino.") # returns None if there are no orders
+
+
+# Edge case 3: Error Handling
+
+    try:
+        # Test invalid customer name
+        invalid_customer = Customer("")  # This will raise an exception
+    except ValidationError as e:
+        print(f"Error creating customer: {e}")
+
+    try:
+        # Test invalid coffee name
+        invalid_coffee = Coffee("A")  # This will raise an exception
+    except ValidationError as e:
+        print(f"Error creating coffee: {e}")
+
+    try:
+        # Test invalid order
+        valid_customer = Customer("Valid Name")
+        valid_coffee = Coffee("Valid Coffee")
+        invalid_order = Order(valid_customer, valid_coffee, 0.5)  # Price too low
+    except ValidationError as e:
+        print(f"Error creating order: {e}")
 
 
 if __name__ == "__main__": # checks if the script is being run directly
