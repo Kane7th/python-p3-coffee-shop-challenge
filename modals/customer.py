@@ -2,7 +2,7 @@ from .order import Order # Importing the Order class from order module
 
 class Customer:  # Customer class to represent a customer
     def __init__(self, name): # constructor to initialize the customer
-        self.name = name # sets the name using the setter
+        self.name = name # calls the setter and validates the name on object creation.
         self.orders = [] # initializes an empty list of orders
 
 
@@ -16,7 +16,7 @@ class Customer:  # Customer class to represent a customer
         if not isinstance(value, str): # checks if value is a string
             raise ValueError("Name must be a string value")
         if not (1 <= len(value) <= 15): # checks if length is between 1 and 15
-            raise ValueError("Name must be at least 3 characters long")
+            raise ValueError("Name must be between 1 and 15 characters long")
         self._name = value  # actual value is stored in self._name
 
 
