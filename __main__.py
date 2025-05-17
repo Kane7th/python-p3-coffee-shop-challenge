@@ -11,16 +11,16 @@ def main():
     brad = Customer("Brad Pitt") # Creating another Customer object
     cappuccino = Coffee("Cappuccino") # Creating another Coffee object
 
-    john.add_order(latte, 4.50) # this will create John's order object including the coffee and price
-    brad.add_order(cappuccino, 5.00) # this will create Brad's order object including the coffee and price
+    order1 = john.create_order(latte, 4.50) # this will create John's order object including the coffee and price
+    order2 = brad.create_order(cappuccino, 5.00) # this will create Brad's order object including the coffee and price
 
-    print(john) # Printing the customer details
-    for order in john.orders: # Printing all orders for John Doe
-        print(order) # Printing the order details
+    print(john)  # Printing the customer details
+    for order in john.orders():  # ✅ Call the method
+        print(order)
 
-    print(brad) # Printing the customer details
-    for order in brad.orders: # Printing all orders for Brad
-        print(order) # Printing the order details
+    print(brad)  # Printing the customer details
+    for order in brad.orders():  # ✅ Call the method
+        print(order)
 
 if __name__ == "__main__": # This ensures that the main function is called only when this script is run directly
     main() # Calling the main function to execute the code

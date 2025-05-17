@@ -3,8 +3,6 @@ from .order import Order # Importing the Order class from order module
 class Customer:  # Customer class to represent a customer
     def __init__(self, name): # constructor to initialize the customer
         self.name = name # calls the setter and validates the name on object creation.
-        self.orders = [] # initializes an empty list of orders
-
 
     @property  # getter simply returns the stored '_name'
     def name(self): # returns the name of the customer
@@ -19,14 +17,15 @@ class Customer:  # Customer class to represent a customer
             raise TypeError("Name must be between 1 and 15 characters long")
         self._name = value  # actual value is stored in self._name
 
-    def add_order(self, coffee, price):   # method to add an order 
-        order = Order(self, coffee, price) # creates an order object
-        self.orders.append(order) # adds order to the list of orders
+    def create_order(self, coffee, price):  # 
+        from .order import Order  # import locally to avoid circular import
+        return Order(self, coffee, price)
 
     def orders(self): # returns all orders for this customer
         from .order import Order # import locally to avoid circular import
-        return [order for order in Order.all_orders if order.customer == self]
-    # returns all orders for this customer as a list
+        return [order for order in Order.all_orders if order.customer == self] 
+    # single source of truth rather than using a class variable
+    # returns all orders for customer as a list
 
     def coffees(self): # returns all coffees ordered by this customer as a list 
         return list({order.coffee for order in self.orders()})

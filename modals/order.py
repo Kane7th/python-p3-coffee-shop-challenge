@@ -1,11 +1,11 @@
 class Order:
-    orders = []  # class variable to store all orders
+    all_orders = []  # class variable to store all orders
 
     def __init__(self, customer, coffee, price): # constructor to initialize the order
         self.customer = customer # sets the customer using the setter
         self.coffee = coffee # sets the coffee using the setter
         self.price = price # sets the price using the setter
-        Order.orders.append(self) # adds the order to the list of orders
+        Order.all_orders.append(self) # adds the order to the list of orders
 
 
     @property  # getter simply returns the stored '_customer'
