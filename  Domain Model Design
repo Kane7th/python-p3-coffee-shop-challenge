@@ -1,0 +1,96 @@
+## INDENTIFYING THE CLASSES REQUIRED
+
+Customer
+________
+
+-Represents a person who buys coffee from the shop.
+
+- Attributes of customer class:
+
+- name (str)
+
+- orders (list of Order instances)
+
+
+Methods:
+
+- place_order(coffee) – creates a new Order with the given Coffee
+
+- coffees() – returns a list of Coffee instances the customer has ordered
+
+- num_orders() – returns the total number of orders placed
+
+
+
+Coffee
+______
+
+Represents a type of coffee sold at the shop.
+
+Attributes:
+
+- name (str)
+
+- price (float)
+
+- orders (list of Order instances)
+
+Methods:
+
+- customers() – returns a list of unique Customer instances who ordered this coffee
+
+- num_orders() – returns how many times this coffee has been ordered
+
+
+Order
+_____
+Represents the transaction linking a Customer and a Coffee.
+
+Attributes:
+
+- customer (Customer instance)
+
+- coffee (Coffee instance)
+
+- timestamp (datetime or string for when the order was placed)
+
+Methods:
+
+- Could include a string representation like __str__ to describe the order
+
+
+
+Relationships
+_____________
+
+- Customer ↔ Order (1-to-many): A customer can place many orders.
+
+- Coffee ↔ Order (1-to-many): A coffee can be part of many orders.
+
+- Customer ↔ Coffee (many-to-many): This is facilitated through the Order class.
+
+The Order class connects Customers and Coffees in a many-to-many relationship.
+
+
+
+Diagram Sketch
+______________
+
+Customer
+  - name
+  - orders: List[Order]
+  + place_order(coffee)
+  + coffees()
+  + num_orders()
+
+Coffee
+  - name
+  - price
+  - orders: List[Order]
+  + customers()
+  + num_orders()
+
+Order
+  - customer: Customer
+  - coffee: Coffee
+  - timestamp
