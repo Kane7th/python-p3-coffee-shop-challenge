@@ -40,15 +40,17 @@ class Customer:  # Customer class to represent a customer
         for order in Order.all_orders: # iterating through all orders
             if order.coffee == coffee: # checks if the coffee is the same
                 customer = order.customer # gets the customer of the order
-                customer.spending = customer_spending.get(customer, 0) + order.price 
+                customer_spending[customer] = customer_spending.get(customer, 0) + order.price
                 # adds the price of the order to the customer's spending
 
         if not customer_spending: # checks if there are no orders
             return None # returns None if there are no orders
 
-        return max(customer_spending, key=customer_spending.get)
-    # key is the function to be called on each element of the iterable
-    # max() returns the maximum value of the iterable, which is the customer with the highest spending
+        max_spent = max(customer_spending.values()) # gets the maximum spending per customer
+        top_spenders = [customer for customer, spent in customer_spending.items() if spent == max_spent] 
+        # creates a list of customers who spent the most
+
+        return top_spenders # returns the list of customers who spent the most
 
 
 
