@@ -21,6 +21,9 @@ def main():
     print(brad)  # Printing the customer details
     for order in brad.orders():  # ✅ Call the method
         print(order)
+    
+    print(f"\nLatte has been ordered {latte.num_orders()} times.")
+    print(f"Average price for Latte: £{latte.average_price():.2f}")
 
 if __name__ == "__main__": # This ensures that the main function is called only when this script is run directly
     main() # Calling the main function to execute the code

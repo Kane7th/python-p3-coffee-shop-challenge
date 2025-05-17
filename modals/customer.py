@@ -32,4 +32,4 @@ class Customer:  # Customer class to represent a customer
     # {order.coffee for ...} builds a set (to ensure uniqueness) & list(...) converts it to a list
 
     def __str__(self): # string representation of the customer
-        return f"The next Customer is: {self.name}" # returns the name of the customer
+        return f"\nThe next Customer is: {self.name}" # returns the name of the customer
